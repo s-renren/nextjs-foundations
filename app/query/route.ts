@@ -1,4 +1,6 @@
 // import postgres from 'postgres';
+import { sql } from '@vercel/postgres';
+import { NextResponse } from 'next/server';
 
 // const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -14,13 +16,16 @@
 // }
 
 export async function GET() {
-  return Response.json({
-    message:
-      'Uncomment this file and remove this line. You can delete this file when you are finished.',
-  });
-  // try {
-  // 	return Response.json(await listInvoices());
-  // } catch (error) {
-  // 	return Response.json({ error }, { status: 500 });
-  // }
+  try {
+    const result = await sql`
+      SELECT invoices.amount, customers.name
+      FROM invoices
+      JOIN customers ON invoices.customer_id = customers.id
+      WHERE invoices.amount = 666;
+    `;
+
+    return NextResponse.json({ data: result.rows });
+  } catch (error) {
+    return NextResponse.json({ error: 'Query failed', details: error }, { status: 500 });
+  }
 }
