@@ -18,5 +18,9 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.tsbuildinfo"
+  },
+
+  "github.copilot.enable": {
+    "*": false
   }
 }
